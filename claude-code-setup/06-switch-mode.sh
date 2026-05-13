@@ -152,14 +152,16 @@ choose_max_tokens() {
 choose_anthropic_model() {
     echo "" >&2
     echo "  기본 모델 선택:" >&2
-    echo "    1) Opus 4.6 1M   (claude-opus-4-6) (기본값)" >&2
-    echo "    2) Sonnet 4.6 1M (claude-sonnet-4-6)" >&2
+    echo "    1) Opus 4.7   (claude-opus-4-7) (기본값)" >&2
+    echo "    2) Opus 4.6   (claude-opus-4-6)" >&2
+    echo "    3) Sonnet 4.6 (claude-sonnet-4-6)" >&2
     read -p "  선택 [1]: " MODEL_CHOICE
     MODEL_CHOICE="${MODEL_CHOICE:-1}"
 
     case "$MODEL_CHOICE" in
-        2) echo "claude-sonnet-4-6" ;;
-        *) echo "claude-opus-4-6" ;;
+        2) echo "claude-opus-4-6" ;;
+        3) echo "claude-sonnet-4-6" ;;
+        *) echo "claude-opus-4-7" ;;
     esac
 }
 
@@ -190,6 +192,7 @@ export ANTHROPIC_MODEL='${model}'
 export CLAUDE_CODE_MAX_OUTPUT_TOKENS=${max_tokens}
 
 # C4E 모드에서는 Bedrock 및 직접 API 관련 변수를 해제
+# (ENABLE_PROMPT_CACHING_1H 는 C4E에서 자동 활성화되므로 export 불필요)
 unset ANTHROPIC_API_KEY
 unset CLAUDE_CODE_USE_BEDROCK
 unset AWS_BEARER_TOKEN_BEDROCK
@@ -252,6 +255,7 @@ setup_subscription() {
 export ANTHROPIC_API_KEY='${SUB_API_KEY}'
 export ANTHROPIC_MODEL='${model}'
 export CLAUDE_CODE_MAX_OUTPUT_TOKENS=${max_tokens}
+export ENABLE_PROMPT_CACHING_1H=1
 
 # Subscription 모드에서는 Bedrock 관련 변수를 해제
 unset CLAUDE_CODE_USE_BEDROCK
@@ -325,14 +329,16 @@ setup_bedrock() {
     # 모델 선택
     echo ""
     echo "  기본 모델 선택:"
-    echo "    1) Opus 4.6 1M   (global.anthropic.claude-opus-4-6-v1[1m]) (기본값)"
-    echo "    2) Sonnet 4.6 1M (global.anthropic.claude-sonnet-4-6[1m])"
+    echo "    1) Opus 4.7   (global.anthropic.claude-opus-4-7) (기본값)"
+    echo "    2) Opus 4.6   (global.anthropic.claude-opus-4-6-v1)"
+    echo "    3) Sonnet 4.6 (global.anthropic.claude-sonnet-4-6)"
     read -p "  선택 [1]: " BRK_MODEL_CHOICE
     BRK_MODEL_CHOICE="${BRK_MODEL_CHOICE:-1}"
 
     case "$BRK_MODEL_CHOICE" in
-        2) BRK_MODEL="global.anthropic.claude-sonnet-4-6[1m]" ;;
-        *) BRK_MODEL="global.anthropic.claude-opus-4-6-v1[1m]" ;;
+        2) BRK_MODEL="global.anthropic.claude-opus-4-6-v1" ;;
+        3) BRK_MODEL="global.anthropic.claude-sonnet-4-6" ;;
+        *) BRK_MODEL="global.anthropic.claude-opus-4-7" ;;
     esac
 
     local max_tokens
@@ -347,11 +353,12 @@ export ANTHROPIC_API_KEY='${BRK_API_KEY}'
 export AWS_BEARER_TOKEN_BEDROCK='${BRK_BEARER}'
 export CLAUDE_CODE_USE_BEDROCK=1
 export ANTHROPIC_MODEL='${BRK_MODEL}'
-export ANTHROPIC_DEFAULT_OPUS_MODEL='global.anthropic.claude-opus-4-6-v1[1m]'
-export ANTHROPIC_DEFAULT_SONNET_MODEL='global.anthropic.claude-sonnet-4-6[1m]'
+export ANTHROPIC_DEFAULT_OPUS_MODEL='global.anthropic.claude-opus-4-7'
+export ANTHROPIC_DEFAULT_SONNET_MODEL='global.anthropic.claude-sonnet-4-6'
 export ANTHROPIC_DEFAULT_HAIKU_MODEL='global.anthropic.claude-haiku-4-5-20251001-v1:0'
 export ANTHROPIC_SMALL_FAST_MODEL='us.anthropic.claude-haiku-4-5-20251001-v1:0'
 export CLAUDE_CODE_MAX_OUTPUT_TOKENS=${max_tokens}
+export ENABLE_PROMPT_CACHING_1H=1
 EOF
 
     chmod 600 "$BRK_ENV"
