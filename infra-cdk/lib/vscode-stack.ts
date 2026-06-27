@@ -26,6 +26,7 @@ export class VscodeStack extends cdk.Stack {
         't4g.xlarge', 't4g.2xlarge',
         't3.large', 't3.xlarge', 't3.2xlarge',
         'm7g.xlarge', 'm7g.2xlarge',
+        'r7g.xlarge', 'r7g.2xlarge',
         'm7i.xlarge', 'm7i.2xlarge',
       ],
       description: 'EC2 instance type for VSCode Server',
