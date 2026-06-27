@@ -441,13 +441,13 @@ Resources:
           # Install uv package manager
           wget -qO- https://astral.sh/uv/install.sh | sh
           
-          # Install code-server v4.110.0
+          # Install code-server v4.126.0
           cd /tmp
-          if wget https://github.com/coder/code-server/releases/download/v4.110.0/code-server-4.110.0-linux-amd64.tar.gz; then
-            tar -xzf code-server-4.110.0-linux-amd64.tar.gz
-            mv code-server-4.110.0-linux-amd64 /usr/local/lib/code-server
+          if wget https://github.com/coder/code-server/releases/download/v4.126.0/code-server-4.126.0-linux-amd64.tar.gz; then
+            tar -xzf code-server-4.126.0-linux-amd64.tar.gz
+            mv code-server-4.126.0-linux-amd64 /usr/local/lib/code-server
             ln -sf /usr/local/lib/code-server/bin/code-server /usr/local/bin/code-server
-            rm code-server-4.110.0-linux-amd64.tar.gz
+            rm code-server-4.126.0-linux-amd64.tar.gz
             echo "code-server installed successfully"
           else
             echo "ERROR: code-server download failed"

@@ -403,8 +403,8 @@ if [ "${ARCH}" = "arm64" ]; then
     # SSM Plugin
     sed -i "s|plugin/latest/linux_64bit/session-manager-plugin.rpm|plugin/latest/linux_arm64/session-manager-plugin.rpm|g" "${TEMPLATE_WORK}"
     # code-server
-    sed -i "s|code-server-4.110.0-linux-amd64\.tar\.gz|code-server-4.110.0-linux-arm64.tar.gz|g" "${TEMPLATE_WORK}"
-    sed -i "s|code-server-4.110.0-linux-amd64|code-server-4.110.0-linux-arm64|g" "${TEMPLATE_WORK}"
+    sed -i "s|code-server-4.126.0-linux-amd64\.tar\.gz|code-server-4.126.0-linux-arm64.tar.gz|g" "${TEMPLATE_WORK}"
+    sed -i "s|code-server-4.126.0-linux-amd64|code-server-4.126.0-linux-arm64|g" "${TEMPLATE_WORK}"
     # CloudWatch Agent
     sed -i "s|amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm|amazoncloudwatch-agent/amazon_linux/arm64/latest/amazon-cloudwatch-agent.rpm|g" "${TEMPLATE_WORK}"
     # kiro-cli

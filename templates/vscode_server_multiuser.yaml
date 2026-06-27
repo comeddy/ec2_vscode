@@ -403,7 +403,7 @@ Resources:
             TransitEncryption: ENABLED
       ContainerDefinitions:
         - Name: vscode-server
-          Image: codercom/code-server:4.110.0
+          Image: codercom/code-server:4.126.0
           Essential: true
           PortMappings:
             - ContainerPort: 8888
