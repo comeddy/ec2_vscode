@@ -275,6 +275,8 @@ INSTANCE_TYPES=(
     "t4g.xlarge:ARM64 Graviton, 4 vCPU, 16GB"
     "m7g.xlarge:ARM64 Graviton, 4 vCPU, 16GB"
     "m7g.2xlarge:ARM64 Graviton, 8 vCPU, 32GB"
+    "r7g.xlarge:ARM64 Graviton, 4 vCPU, 32GB  (메모리 최적화 / mem-optimized)"
+    "r7g.2xlarge:ARM64 Graviton, 8 vCPU, 64GB  (메모리 최적화 / mem-optimized)"
     "t3.xlarge:x86_64 Intel, 4 vCPU, 16GB"
     "t3.2xlarge:x86_64 Intel, 8 vCPU, 32GB"
     "m7i.xlarge:x86_64 Intel, 4 vCPU, 16GB"
@@ -295,9 +297,18 @@ ITYPE_CHOICE="${ITYPE_CHOICE:-1}"
 if [ "$ITYPE_CHOICE" = "0" ]; then
     read -p "  인스턴스 타입 입력 / Enter instance type: " INSTANCE_TYPE
     INSTANCE_TYPE="${INSTANCE_TYPE:-t4g.2xlarge}"
-elif [[ "$ITYPE_CHOICE" =~ ^[0-9]+$ ]] && [ "$ITYPE_CHOICE" -ge 1 ] && [ "$ITYPE_CHOICE" -le "${#INSTANCE_TYPES[@]}" ]; then
-    INSTANCE_TYPE="${INSTANCE_TYPES[$((ITYPE_CHOICE-1))]%%:*}"
+elif [[ "$ITYPE_CHOICE" =~ ^[0-9]+$ ]]; then
+    if [ "$ITYPE_CHOICE" -ge 1 ] && [ "$ITYPE_CHOICE" -le "${#INSTANCE_TYPES[@]}" ]; then
+        INSTANCE_TYPE="${INSTANCE_TYPES[$((ITYPE_CHOICE-1))]%%:*}"
+    else
+        echo -e "  ${YELLOW}범위를 벗어난 번호입니다 / Number out of range, using default${NC}"
+        INSTANCE_TYPE="t4g.2xlarge"
+    fi
+elif [[ "$ITYPE_CHOICE" =~ ^[a-z][a-z0-9-]*\.[a-z0-9]+$ ]]; then
+    # 번호 대신 인스턴스 타입을 직접 입력한 경우 / Custom type typed directly
+    INSTANCE_TYPE="$ITYPE_CHOICE"
 else
+    echo -e "  ${YELLOW}입력을 인식할 수 없습니다 / Unrecognized input, using default${NC}"
     INSTANCE_TYPE="t4g.2xlarge"
 fi
 
