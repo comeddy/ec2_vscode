@@ -271,6 +271,7 @@ bash claude-code-setup/05-setup-custom-plugin.sh
 | 03 | `03-setup-plugins-and-mcp.sh` | 플러그인 26개 + AWS MCP 서버 3개 설치 |
 | 04 | `04-update-claude.sh` | Claude Code CLI 업데이트 |
 | 05 | `05-setup-custom-plugin.sh` | 커스텀 플러그인 (project-init) 설치 |
+| 06 | `06-switch-mode.sh` | 구독형 ↔ Bedrock API 모드 전환 |
 | - | `mcp-toggle.sh` | MCP 서버 ON/OFF 인터랙티브 TUI |
 
 ## Kiro CLI 설정
