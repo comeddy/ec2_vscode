@@ -68,7 +68,7 @@ bash 01-setup-bedrock-env.sh
 **대화형 입력 항목:**
 - `ANTHROPIC_API_KEY` - Anthropic API 키
 - `AWS_BEARER_TOKEN_BEDROCK` - AWS Bearer Token
-- 모델 선택 (Opus 4.7 / Opus 4.6 / Sonnet 4.6)
+- 모델 선택 (Opus 4.8 / Opus 4.7 / Opus 4.6 / Sonnet 4.6)
 - Max Output Tokens 선택 (4096 / 16384 / 32768)
 
 **설정되는 환경변수:**
@@ -77,7 +77,7 @@ ANTHROPIC_API_KEY
 AWS_BEARER_TOKEN_BEDROCK
 CLAUDE_CODE_USE_BEDROCK=1
 ANTHROPIC_MODEL                    # 선택한 모델
-ANTHROPIC_DEFAULT_OPUS_MODEL       # global.anthropic.claude-opus-4-7
+ANTHROPIC_DEFAULT_OPUS_MODEL       # global.anthropic.claude-opus-4-8
 ANTHROPIC_DEFAULT_SONNET_MODEL     # global.anthropic.claude-sonnet-4-6
 ANTHROPIC_DEFAULT_HAIKU_MODEL      # global.anthropic.claude-haiku-4-5-20251001-v1:0
 ANTHROPIC_SMALL_FAST_MODEL         # us.anthropic.claude-haiku-4-5-20251001-v1:0
@@ -116,9 +116,9 @@ bash 02-setup-vscode-settings.sh
 
 | 설정 | 값 |
 |------|-----|
-| `ANTHROPIC_MODEL` | `global.anthropic.claude-opus-4-7` |
+| `ANTHROPIC_MODEL` | `global.anthropic.claude-opus-4-8` |
 | `ANTHROPIC_SMALL_FAST_MODEL` | `us.anthropic.claude-haiku-4-5-20251001-v1:0` |
-| `CLAUDE_CODE_SUBAGENT_MODEL` | `global.anthropic.claude-opus-4-7` |
+| `CLAUDE_CODE_SUBAGENT_MODEL` | `global.anthropic.claude-opus-4-8` |
 | `MAX_THINKING_TOKENS` | `10240` |
 | `CLAUDE_CODE_MAX_OUTPUT_TOKENS` | `16384` |
 | `ENABLE_PROMPT_CACHING_1H` | `1` |
