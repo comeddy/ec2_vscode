@@ -293,8 +293,14 @@ bash claude-code-setup/08-setup-claude-hud.sh
 
 ![claude-hud statusLine HUD 예시](doc/claude-hud.png)
 
-모델명·git 브랜치·세션 경과 시간, 컨텍스트 사용률, MCP 개수, 실행한 도구 활동(예: `✓ Bash ×10`)이
-표시됩니다. 서브에이전트·Todo 진행률·세션 이름 등 나머지 확장 항목도 해당 데이터가 있을 때 함께 나타납니다.
+기본으로 모델명·git 브랜치·컨텍스트 사용률이 표시되고, `08-setup-claude-hud.sh`가 켜는 확장 항목이 함께 나타납니다:
+
+- **세션 이름** — `/rename`으로 지정한 제목 또는 자동 생성된 세션 슬러그
+- 세션 경과 시간(⏱)과 MCP 개수
+- 실행한 도구 활동 (예: `✓ Bash ×10`, `✓ Edit ×5`)
+- 서브에이전트·Todo 진행률
+
+각 항목은 해당 데이터가 있을 때 표시됩니다.
 
 ## Kiro CLI 설정
 
