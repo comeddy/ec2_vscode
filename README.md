@@ -287,6 +287,15 @@ bash claude-code-setup/08-setup-claude-hud.sh
 | 08 | `08-setup-claude-hud.sh` | claude-hud 플러그인 설치 + statusLine HUD 설정 (~/.claude/settings.json) |
 | - | `mcp-toggle.sh` | MCP 서버 ON/OFF 인터랙티브 TUI |
 
+### claude-hud HUD 화면 예시
+
+`08-setup-claude-hud.sh` 실행 후 Claude Code를 재시작하면 입력창 아래에 HUD가 표시됩니다.
+
+![claude-hud statusLine HUD 예시](doc/claude-hud.png)
+
+모델명·git 브랜치·세션 경과 시간, 컨텍스트 사용률, MCP 개수, 실행한 도구 활동(예: `✓ Bash ×10`)이
+표시됩니다. 서브에이전트·Todo 진행률·세션 이름 등 나머지 확장 항목도 해당 데이터가 있을 때 함께 나타납니다.
+
 ## Kiro CLI 설정
 
 VSCode Server 배포 후 Kiro CLI 환경을 설정하기 위한 스크립트입니다.
