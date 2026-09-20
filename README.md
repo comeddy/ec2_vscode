@@ -302,6 +302,188 @@ bash claude-code-setup/08-setup-claude-hud.sh
 
 각 항목은 해당 데이터가 있을 때 표시됩니다.
 
+## GPT-6 Astra (OpenAI Codex CLI) 설치 및 설정
+
+VSCode Server 배포 후 터미널에서 Codex CLI를 설치하고 OpenAI의 GPT-6 Astra (`gpt-6-astra`)에 연결하는 방법입니다.
+Codex CLI는 현재 EC2 UserData 자동 설치 항목에 포함되어 있지 않으므로 아래 절차로 설치합니다.
+1단계 설치 후 OpenAI에 직접 연결하려면 2~4단계, Amazon Bedrock을 사용하려면 5단계로 진행합니다.
+
+### 1. Codex CLI 설치
+
+Node.js / npm과 sudo 권한이 필요합니다. VSCode Server 터미널에서 저장소 루트로 이동한 뒤 실행합니다.
+
+```bash
+cd ~/ec2_vscode
+
+# Node.js / npm 확인
+node --version
+npm --version
+
+# Codex CLI 설치 또는 업데이트
+bash codex-cli-setup/03-update-codex.sh
+codex --version
+```
+
+스크립트는 `sudo npm install -g @openai/codex`로 설치하며, 이후 업데이트할 때도 같은 스크립트를 실행합니다.
+
+### 2. 로그인 (OpenAI 직접 접속)
+
+아래 두 방식 중 하나로 인증합니다. GPT-6 Astra를 사용할 수 있는 계정 또는 API 프로젝트가 필요합니다.
+
+**OpenAI API 키:**
+
+OpenAI Platform에서 발급한 API 키로 로그인합니다. 키는 화면에 표시되지 않도록 입력받습니다.
+
+```bash
+read -rsp "OpenAI API 키: " OPENAI_API_KEY
+printf '\n'
+export OPENAI_API_KEY
+printenv OPENAI_API_KEY | codex login --with-api-key
+unset OPENAI_API_KEY
+```
+
+API 키 방식은 ChatGPT 구독과 별도로 OpenAI API 사용량에 따라 과금됩니다.
+
+**ChatGPT 계정 (계정에서 GPT-6 Astra를 제공하는 경우):**
+
+원격 EC2에서는 디바이스 코드 로그인을 사용합니다.
+개인 계정의 ChatGPT 보안 설정 또는 워크스페이스 관리자 설정에서 디바이스 코드 로그인을 활성화한 뒤 실행합니다.
+
+```bash
+codex login --device-auth
+```
+
+터미널에 표시되는 주소를 로컬 PC 브라우저에서 열고 로그인한 뒤, 일회용 코드를 입력합니다.
+ChatGPT 로그인 후 `/model` 목록에 GPT-6 Astra가 없다면 모델 접근 권한이 있는 OpenAI API 키로 로그인하세요.
+
+### 3. GPT-6 Astra 실행 및 확인
+
+작업할 프로젝트 디렉터리에서 인증 상태를 확인하고 모델을 지정하여 실행합니다.
+
+```bash
+codex login status
+codex --model gpt-6-astra
+```
+
+실행 후 Codex 입력창에서 `/status`로 적용된 모델을 확인하고, `/model`로 계정에 제공되는 모델을 선택할 수 있습니다.
+모델을 사용할 수 없다는 오류가 발생하면 CLI를 업데이트한 뒤 로그인한 계정 또는 API 프로젝트의 GPT-6 Astra 접근 권한을 확인하세요.
+
+### 4. 기본 모델 설정 (선택)
+
+`~/.codex/config.toml`이 없으면 디렉터리와 파일을 생성하고, 파일의 최상위 영역(`[섹션]` 앞)에 아래 설정을 추가합니다.
+이미 `model` 항목이 있으면 해당 값을 수정합니다.
+
+```toml
+model = "gpt-6-astra"
+```
+
+이후 프로젝트 디렉터리에서 `codex`만 실행하면 됩니다.
+신뢰한 프로젝트의 `.codex/config.toml` 또는 실행 시 지정한 `--model` 옵션이 있으면 해당 설정이 우선 적용됩니다.
+
+### 5. GPT-6 Astra on Amazon Bedrock (Mantle, us-west-2)
+
+Amazon Bedrock의 **Mantle** 엔드포인트에 Codex CLI를 연결합니다.
+GPT-6 Astra의 Mantle 추론은 **미국 서부(오레곤), `us-west-2`**에서 지원됩니다.
+인증에는 Amazon Bedrock API 키를 사용하고, 사용량은 AWS 계정에 청구됩니다.
+
+| 항목 | 설정값 |
+|------|--------|
+| AWS 리전 | `us-west-2` |
+| Base URL | `https://bedrock-mantle.us-west-2.api.aws/openai/v1` |
+| Bedrock 모델 ID | `openai.gpt-6-astra` |
+| API | OpenAI 호환 Responses API (`/openai/v1/responses`) |
+| 인증 | Amazon Bedrock API 키를 Bearer 토큰으로 전달 |
+
+GPT-6 Astra의 Mantle Base URL에는 **`/openai/v1`** 경로까지 포함합니다.
+
+#### 5-1. Bedrock API 키 및 환경변수 설정
+
+AWS 콘솔에서 리전을 **오레곤 (`us-west-2`)**으로 선택하고, **Amazon Bedrock → API keys**에서 API 키를 발급합니다.
+API 키에 연결된 IAM 주체에는 Mantle 추론 권한(`bedrock-mantle:CreateInference`)과 베어러 토큰 호출 권한(`bedrock-mantle:CallWithBearerToken`)이 필요합니다.
+
+프로젝트에 있는 [Codex 환경변수 설정 스크립트](codex-cli-setup/01-setup-env.sh)를 실행합니다.
+
+```bash
+cd ~/ec2_vscode
+bash codex-cli-setup/01-setup-env.sh
+source ~/.bashrc
+```
+
+대화형 입력에는 아래 값을 사용합니다.
+
+| 입력 항목 | 선택 또는 입력값 |
+|-----------|------------------|
+| API Provider | `2` — Amazon Bedrock |
+| `OPENAI_BASE_URL` (Bedrock 프록시 URL) | `https://bedrock-mantle.us-west-2.api.aws/openai/v1` |
+| `OPENAI_API_KEY` (Bedrock 인증 키) | 위에서 발급한 **Amazon Bedrock API 키** (필수) |
+| 사용할 모델 | `7` — 직접 입력 |
+| 모델 ID | `openai.gpt-6-astra` |
+
+스크립트는 `OPENAI_BASE_URL`, `OPENAI_API_KEY`, `CODEX_DEFAULT_MODEL`을 `~/.bashrc`에 저장합니다.
+Codex에서 사용할 모델과 연결 대상은 다음 프로필에서 지정합니다.
+
+#### 5-2. Codex의 Bedrock 프로필 설정
+
+1단계 스크립트로 Codex CLI를 업데이트한 뒤, `~/.codex/bedrock-astra.config.toml` 파일에 아래 내용을 저장합니다.
+이 프로필 파일 형식은 Codex CLI **0.134.0 이상**을 기준으로 합니다.
+
+```bash
+mkdir -p ~/.codex
+```
+
+```toml
+# ~/.codex/bedrock-astra.config.toml
+model = "openai.gpt-6-astra"
+model_provider = "bedrock-mantle"
+
+[model_providers.bedrock-mantle]
+name = "Amazon Bedrock Mantle (us-west-2)"
+base_url = "https://bedrock-mantle.us-west-2.api.aws/openai/v1"
+env_key = "OPENAI_API_KEY"
+wire_api = "responses"
+requires_openai_auth = false
+```
+
+`env_key`는 5-1단계에서 설정한 Bedrock API 키를 읽습니다.
+이 프로필은 Bedrock API 키로 인증하므로 별도의 `codex login` 절차 없이 실행합니다.
+
+#### 5-3. 연결 확인 및 실행
+
+선택적으로 아래 명령으로 Bedrock Responses API에 추론 요청을 한 번 보내 연결을 확인할 수 있습니다.
+
+```bash
+curl --fail-with-body --silent --show-error \
+  "https://bedrock-mantle.us-west-2.api.aws/openai/v1/responses" \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer ${OPENAI_API_KEY:?Bedrock API 키를 먼저 설정하세요}" \
+  --data '{"model":"openai.gpt-6-astra","input":"Reply with OK."}'
+```
+
+작업할 프로젝트 디렉터리에서 Bedrock 프로필을 선택하여 실행합니다.
+`--model`을 함께 지정하면 프로젝트별 모델 설정이 있어도 Bedrock 모델 ID를 사용합니다.
+
+```bash
+codex --profile bedrock-astra --model openai.gpt-6-astra
+```
+
+실행 후 `/status`에서 모델이 `openai.gpt-6-astra`, provider가 `bedrock-mantle`인지 확인합니다.
+
+- **401 / 403**: Bedrock API 키의 만료 여부, 단기 키의 발급 리전(`us-west-2`), IAM 권한과 모델 접근 권한을 확인합니다.
+- **404 / 모델 오류**: Base URL의 `/openai/v1` 경로와 모델 ID `openai.gpt-6-astra`를 확인합니다.
+- **OpenAI 직접 접속으로 전환**: 스크립트가 `~/.bashrc`에 추가한 Bedrock용 `OPENAI_BASE_URL` / `OPENAI_API_KEY` 설정을 제거하거나 OpenAI용으로 변경한 뒤, 새 터미널에서 2~3단계를 실행합니다.
+
+### 공식 문서
+
+- [GPT-6 Astra 모델](https://developers.openai.com/api/docs/models/gpt-6-astra)
+- [Amazon Bedrock의 GPT-6 Astra 모델·리전·엔드포인트](https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-openai-gpt-6-astra.html)
+- [Amazon Bedrock Responses API 및 Mantle 권한](https://docs.aws.amazon.com/bedrock/latest/userguide/bedrock-mantle.html)
+- [Amazon Bedrock API 키 발급 및 인증](https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys.html)
+- [Codex CLI 설치](https://developers.openai.com/codex/quickstart)
+- [로그인 및 원격 환경 인증](https://developers.openai.com/codex/auth)
+- [CLI 명령어](https://developers.openai.com/codex/cli/reference)
+- [기본 모델 및 설정 파일](https://developers.openai.com/codex/config-basic)
+- [Codex 프로필 및 커스텀 모델 provider 설정](https://developers.openai.com/codex/config-advanced)
+
 ## Kiro CLI 설정
 
 VSCode Server 배포 후 Kiro CLI 환경을 설정하기 위한 스크립트입니다.
