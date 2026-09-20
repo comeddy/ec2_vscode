@@ -419,6 +419,9 @@ source ~/.bashrc
 | 사용할 모델 | `7` — 직접 입력 |
 | 모델 ID | `openai.gpt-6-astra` |
 
+<strong>API 키 구분:</strong> 이 Bedrock 설정에서 `OPENAI_API_KEY`는 환경변수 이름이며, 실제 값은 <strong>Amazon Bedrock에서 발급한 API 키</strong>입니다.
+OpenAI Platform에서 발급한 API 키를 입력하지 않습니다.
+
 스크립트는 `OPENAI_BASE_URL`, `OPENAI_API_KEY`, `CODEX_DEFAULT_MODEL`을 `~/.bashrc`에 저장합니다.
 Codex에서 사용할 모델과 연결 대상은 다음 프로필에서 지정합니다.
 
@@ -439,12 +442,19 @@ model_provider = "bedrock-mantle"
 [model_providers.bedrock-mantle]
 name = "Amazon Bedrock Mantle (us-west-2)"
 base_url = "https://bedrock-mantle.us-west-2.api.aws/openai/v1"
+# Amazon Bedrock API 키를 담은 환경변수 이름 (실제 키 문자열을 넣는 항목이 아닙니다)
 env_key = "OPENAI_API_KEY"
 wire_api = "responses"
 requires_openai_auth = false
 ```
 
-`env_key`는 5-1단계에서 설정한 Bedrock API 키를 읽습니다.
+`env_key = "OPENAI_API_KEY"`는 `OPENAI_API_KEY` 환경변수에 저장된 값을 인증 키로 읽으라는 뜻입니다.
+5-1단계 스크립트가 이 변수에 Bedrock API 키를 저장합니다. 현재 터미널에서 직접 설정하려면 아래와 같이 입력합니다.
+
+```bash
+export OPENAI_API_KEY="<Amazon Bedrock에서 발급한 API 키>"
+```
+
 이 프로필은 Bedrock API 키로 인증하므로 별도의 `codex login` 절차 없이 실행합니다.
 
 #### 5-3. 연결 확인 및 실행
