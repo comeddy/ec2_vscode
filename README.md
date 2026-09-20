@@ -23,11 +23,11 @@ User ──HTTPS──> CloudFront ──HTTP:80──> ALB (Custom Header) ─�
 
 ### 보안 기능
 
-- **CloudFront Prefix List**: ALB Security Group에서 CloudFront origin-facing IP만 허용
-- **X-Custom-Secret Header**: CloudFront에서 ALB로 전달되는 커스텀 헤더로 직접 ALB 접근 차단 (403)
-- **Private Subnet**: VSCode Server가 Private Subnet에 배치되어 직접 인터넷 노출 없음
-- **SSM VPC Endpoints**: Private Subnet에서 SSM Session Manager 접근 (SSH 불필요)
-- **EBS 암호화**: 100GB gp3 볼륨 암호화 활성화
+- <strong>CloudFront Prefix List</strong>: ALB Security Group에서 CloudFront origin-facing IP만 허용
+- <strong>X-Custom-Secret Header</strong>: CloudFront에서 ALB로 전달되는 커스텀 헤더로 직접 ALB 접근 차단 (403)
+- <strong>Private Subnet</strong>: VSCode Server가 Private Subnet에 배치되어 직접 인터넷 노출 없음
+- <strong>SSM VPC Endpoints</strong>: Private Subnet에서 SSM Session Manager 접근 (SSH 불필요)
+- <strong>EBS 암호화</strong>: 100GB gp3 볼륨 암호화 활성화
 
 ### EC2 UserData 설치 항목
 
@@ -118,11 +118,11 @@ bash deploy_vscode.sh
 ```
 
 대화형으로 다음을 선택합니다:
-- **계정**: 현재 자격 증명 / AWS 프로파일 / Access Key 직접 입력
-- **리전**: 서울, 도쿄, 버지니아 등 12개 리전
-- **VPC**: 새 VPC 생성 (10.254.0.0/16) 또는 기존 VPC 선택
-- **인스턴스 타입**: ARM64 Graviton (기본 t4g.2xlarge) 또는 x86_64
-- **비밀번호**: VSCode Server 접속 비밀번호 (8자 이상)
+- <strong>계정</strong>: 현재 자격 증명 / AWS 프로파일 / Access Key 직접 입력
+- <strong>리전</strong>: 서울, 도쿄, 버지니아 등 12개 리전
+- <strong>VPC</strong>: 새 VPC 생성 (10.254.0.0/16) 또는 기존 VPC 선택
+- <strong>인스턴스 타입</strong>: ARM64 Graviton (기본 t4g.2xlarge) 또는 x86_64
+- <strong>비밀번호</strong>: VSCode Server 접속 비밀번호 (8자 이상)
 
 배포 완료 후 CloudFront URL과 SSM 접속 명령이 출력됩니다.
 
@@ -189,14 +189,14 @@ CDK 배포 시 EC2 인스턴스에 다음 IAM Role이 생성됩니다.
 | Role 이름 | `VscodeServerStack-VSCode-Role` |
 | 사용 주체 | EC2 인스턴스 (VSCode Server) |
 
-**연결된 정책:**
+<strong>연결된 정책:</strong>
 
 | 정책 | 용도 |
 |------|------|
 | `AmazonSSMManagedInstanceCore` | SSM Session Manager 접속 |
 | `CloudWatchAgentServerPolicy` | CloudWatch 모니터링 및 로그 수집 |
 
-**AdministratorAccess 추가 (전체 권한):**
+<strong>AdministratorAccess 추가 (전체 권한):</strong>
 
 ```bash
 aws iam attach-role-policy \
@@ -295,7 +295,7 @@ bash claude-code-setup/08-setup-claude-hud.sh
 
 기본으로 모델명·git 브랜치·컨텍스트 사용률이 표시되고, `08-setup-claude-hud.sh`가 켜는 확장 항목이 함께 나타납니다:
 
-- **세션 이름** — `/rename`으로 지정한 제목 또는 자동 생성된 세션 슬러그
+- <strong>세션 이름</strong> — `/rename`으로 지정한 제목 또는 자동 생성된 세션 슬러그
 - 세션 경과 시간(⏱)과 MCP 개수
 - 실행한 도구 활동 (예: `✓ Bash ×10`, `✓ Edit ×5`)
 - 서브에이전트·Todo 진행률
@@ -330,7 +330,7 @@ codex --version
 
 아래 두 방식 중 하나로 인증합니다. GPT-6 Astra를 사용할 수 있는 계정 또는 API 프로젝트가 필요합니다.
 
-**OpenAI API 키:**
+<strong>OpenAI API 키:</strong>
 
 OpenAI Platform에서 발급한 API 키로 로그인합니다. 키는 화면에 표시되지 않도록 입력받습니다.
 
@@ -344,7 +344,7 @@ unset OPENAI_API_KEY
 
 API 키 방식은 ChatGPT 구독과 별도로 OpenAI API 사용량에 따라 과금됩니다.
 
-**ChatGPT 계정 (계정에서 GPT-6 Astra를 제공하는 경우):**
+<strong>ChatGPT 계정 (계정에서 GPT-6 Astra를 제공하는 경우):</strong>
 
 원격 EC2에서는 디바이스 코드 로그인을 사용합니다.
 개인 계정의 ChatGPT 보안 설정 또는 워크스페이스 관리자 설정에서 디바이스 코드 로그인을 활성화한 뒤 실행합니다.
@@ -382,8 +382,8 @@ model = "gpt-6-astra"
 
 ### 5. GPT-6 Astra on Amazon Bedrock (Mantle, us-west-2)
 
-Amazon Bedrock의 **Mantle** 엔드포인트에 Codex CLI를 연결합니다.
-GPT-6 Astra의 Mantle 추론은 **미국 서부(오레곤), `us-west-2`**에서 지원됩니다.
+Amazon Bedrock의 <strong>Mantle</strong> 엔드포인트에 Codex CLI를 연결합니다.
+GPT-6 Astra의 Mantle 추론은 <strong>미국 서부(오레곤), `us-west-2`</strong>에서 지원됩니다.
 인증에는 Amazon Bedrock API 키를 사용하고, 사용량은 AWS 계정에 청구됩니다.
 
 | 항목 | 설정값 |
@@ -394,11 +394,11 @@ GPT-6 Astra의 Mantle 추론은 **미국 서부(오레곤), `us-west-2`**에서 
 | API | OpenAI 호환 Responses API (`/openai/v1/responses`) |
 | 인증 | Amazon Bedrock API 키를 Bearer 토큰으로 전달 |
 
-GPT-6 Astra의 Mantle Base URL에는 **`/openai/v1`** 경로까지 포함합니다.
+GPT-6 Astra의 Mantle Base URL에는 <strong>`/openai/v1`</strong> 경로까지 포함합니다.
 
 #### 5-1. Bedrock API 키 및 환경변수 설정
 
-AWS 콘솔에서 리전을 **오레곤 (`us-west-2`)**으로 선택하고, **Amazon Bedrock → API keys**에서 API 키를 발급합니다.
+AWS 콘솔에서 리전을 <strong>오레곤 (`us-west-2`)</strong>으로 선택하고, <strong>Amazon Bedrock → API keys</strong>에서 API 키를 발급합니다.
 API 키에 연결된 IAM 주체에는 Mantle 추론 권한(`bedrock-mantle:CreateInference`)과 베어러 토큰 호출 권한(`bedrock-mantle:CallWithBearerToken`)이 필요합니다.
 
 프로젝트에 있는 [Codex 환경변수 설정 스크립트](codex-cli-setup/01-setup-env.sh)를 실행합니다.
@@ -415,7 +415,7 @@ source ~/.bashrc
 |-----------|------------------|
 | API Provider | `2` — Amazon Bedrock |
 | `OPENAI_BASE_URL` (Bedrock 프록시 URL) | `https://bedrock-mantle.us-west-2.api.aws/openai/v1` |
-| `OPENAI_API_KEY` (Bedrock 인증 키) | 위에서 발급한 **Amazon Bedrock API 키** (필수) |
+| `OPENAI_API_KEY` (Bedrock 인증 키) | 위에서 발급한 <strong>Amazon Bedrock API 키</strong> (필수) |
 | 사용할 모델 | `7` — 직접 입력 |
 | 모델 ID | `openai.gpt-6-astra` |
 
@@ -425,7 +425,7 @@ Codex에서 사용할 모델과 연결 대상은 다음 프로필에서 지정�
 #### 5-2. Codex의 Bedrock 프로필 설정
 
 1단계 스크립트로 Codex CLI를 업데이트한 뒤, `~/.codex/bedrock-astra.config.toml` 파일에 아래 내용을 저장합니다.
-이 프로필 파일 형식은 Codex CLI **0.134.0 이상**을 기준으로 합니다.
+이 프로필 파일 형식은 Codex CLI <strong>0.134.0 이상</strong>을 기준으로 합니다.
 
 ```bash
 mkdir -p ~/.codex
@@ -468,9 +468,9 @@ codex --profile bedrock-astra --model openai.gpt-6-astra
 
 실행 후 `/status`에서 모델이 `openai.gpt-6-astra`, provider가 `bedrock-mantle`인지 확인합니다.
 
-- **401 / 403**: Bedrock API 키의 만료 여부, 단기 키의 발급 리전(`us-west-2`), IAM 권한과 모델 접근 권한을 확인합니다.
-- **404 / 모델 오류**: Base URL의 `/openai/v1` 경로와 모델 ID `openai.gpt-6-astra`를 확인합니다.
-- **OpenAI 직접 접속으로 전환**: 스크립트가 `~/.bashrc`에 추가한 Bedrock용 `OPENAI_BASE_URL` / `OPENAI_API_KEY` 설정을 제거하거나 OpenAI용으로 변경한 뒤, 새 터미널에서 2~3단계를 실행합니다.
+- <strong>401 / 403</strong>: Bedrock API 키의 만료 여부, 단기 키의 발급 리전(`us-west-2`), IAM 권한과 모델 접근 권한을 확인합니다.
+- <strong>404 / 모델 오류</strong>: Base URL의 `/openai/v1` 경로와 모델 ID `openai.gpt-6-astra`를 확인합니다.
+- <strong>OpenAI 직접 접속으로 전환</strong>: 스크립트가 `~/.bashrc`에 추가한 Bedrock용 `OPENAI_BASE_URL` / `OPENAI_API_KEY` 설정을 제거하거나 OpenAI용으로 변경한 뒤, 새 터미널에서 2~3단계를 실행합니다.
 
 ### 공식 문서
 
@@ -520,8 +520,8 @@ bash kiro-cli-setup/05-install-skills.sh
 | 04 | `04-update-kiro.sh` | Kiro CLI 업데이트 (ARM64/x86_64 자동 감지) |
 | 05 | `05-install-skills.sh` | Kiro CLI 스킬 36개 설치 (`--local`로 프로젝트 단위 설치 가능) |
 
-> **인증 방식 변경**: Kiro CLI는 Bedrock 베어러 토큰 환경변수가 아니라 브라우저/디바이스 플로우 로그인을 사용합니다.
+> <strong>인증 방식 변경</strong>: Kiro CLI는 Bedrock 베어러 토큰 환경변수가 아니라 브라우저/디바이스 플로우 로그인을 사용합니다.
 >
-> **MCP 서버 2개**: AWS API·Cost Explorer·Pricing·Diagram 도구는 Kiro CLI에 빌트인되어 있어 `core-mcp-server`가 불필요합니다. Terraform·Bedrock AgentCore MCP 서버만 등록됩니다.
+> <strong>MCP 서버 2개</strong>: AWS API·Cost Explorer·Pricing·Diagram 도구는 Kiro CLI에 빌트인되어 있어 `core-mcp-server`가 불필요합니다. Terraform·Bedrock AgentCore MCP 서버만 등록됩니다.
 >
-> **스킬**: 설치 후 `kiro-cli chat --agent powers`로 스킬이 포함된 `powers` 에이전트를 사용하거나, 채팅 중 `/agent powers`로 전환할 수 있습니다. 기본 에이전트로 지정하려면 `kiro-cli settings chat.defaultAgent powers`.
+> <strong>스킬</strong>: 설치 후 `kiro-cli chat --agent powers`로 스킬이 포함된 `powers` 에이전트를 사용하거나, 채팅 중 `/agent powers`로 전환할 수 있습니다. 기본 에이전트로 지정하려면 `kiro-cli settings chat.defaultAgent powers`.
