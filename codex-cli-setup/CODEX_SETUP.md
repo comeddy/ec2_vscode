@@ -44,7 +44,7 @@ source ~/.bashrc
 
 **대화형 입력 항목:**
 - API Provider 선택 (OpenAI / Amazon Bedrock / 커스텀)
-- `OPENAI_API_KEY` - API 키
+- API 키 (필수, 입력 내용 숨김) - 선택한 Provider에서 발급한 키를 `OPENAI_API_KEY` 환경변수에 저장합니다. Bedrock 선택 시 Amazon Bedrock API 키를 입력하며, OpenAI Platform API 키를 입력하지 않습니다.
 - `OPENAI_BASE_URL` - Base URL (Bedrock/커스텀 선택 시)
 - 모델 선택 (o4-mini / o3 / gpt-4.1 / codex-mini / 직접 입력)
 

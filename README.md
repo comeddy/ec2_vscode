@@ -414,8 +414,8 @@ source ~/.bashrc
 | 입력 항목 | 선택 또는 입력값 |
 |-----------|------------------|
 | API Provider | `2` — Amazon Bedrock |
-| `OPENAI_BASE_URL` (Bedrock 프록시 URL) | `https://bedrock-mantle.us-west-2.api.aws/openai/v1` |
-| `OPENAI_API_KEY` (Bedrock 인증 키) | 위에서 발급한 <strong>Amazon Bedrock API 키</strong> (필수) |
+| `OPENAI_BASE_URL` (Bedrock 엔드포인트 URL) | `https://bedrock-mantle.us-west-2.api.aws/openai/v1` |
+| Amazon Bedrock에서 발급한 API 키 | 위에서 발급한 <strong>Amazon Bedrock API 키</strong> (필수, 입력 내용 숨김) |
 | 사용할 모델 | `7` — 직접 입력 |
 | 모델 ID | `openai.gpt-6-astra` |
 
