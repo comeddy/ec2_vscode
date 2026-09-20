@@ -105,8 +105,10 @@ bash kiro-cli-setup/03-setup-mcp-servers.sh
 | awslabs-terraform-mcp-server | `awslabs.terraform-mcp-server` | Terraform/Terragrunt AWS 인프라 개발 |
 | bedrock-agentcore-mcp-server | `awslabs.amazon-bedrock-agentcore-mcp-server` | Bedrock AgentCore Gateway, Memory, Runtime |
 
-> **Note:** AWS API, Cost Explorer, Pricing, Diagram 도구는 Kiro CLI에 빌트인되어 있어
-> 별도 MCP 서버(`core-mcp-server`) 설치가 불필요합니다.
+이 스크립트는 위 MCP 서버 2개를 등록합니다.
+Cost Explorer·Pricing·Diagram 전용 도구가 모두 내장되어 있다는 의미는 아닙니다.
+Kiro CLI 3.0에서는 기존 AWS 내장 도구(`aws_tool`)도 제거되므로, 필요한 기능은 AWS CLI 또는 추가 MCP 서버로 구성합니다.
+참고: [Kiro CLI 내장 도구](https://kiro.dev/docs/reference/built-in-tools/), [3.0 업그레이드 안내](https://kiro.dev/docs/cli/v3/).
 
 **설정 파일:**
 ```
